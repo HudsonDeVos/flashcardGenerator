@@ -1,2 +1,4 @@
 # flashcardGenerator
-My project to assist in studying. 
+This my project to assist in studying.
+
+Hudson
