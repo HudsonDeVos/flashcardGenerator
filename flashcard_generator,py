@@ -5,7 +5,7 @@
     Purpose: To generate flashcards to help study
 '''
 
-# Disclaimer: This code was made with the help of ChatGPT.
+# Disclaimer: This code was made with the HELP of ChatGPT.
 
 # TODO: Import randint
 from random import randint 
