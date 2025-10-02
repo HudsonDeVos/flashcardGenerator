@@ -69,6 +69,10 @@ def add_fc_button():
 def study_fc_button():
     show_frame(study_frame)
 
+# Creates a button for switching to the welcome frame 
+def welcome_button():
+    show_frame(welcome_frame)
+
 # Creates the GUI window
 root = tk.Tk()
 root.title("Flashcard Creator")
@@ -101,19 +105,37 @@ switch_to_add_fc.grid(row=1, column=5, pady=0)
 switch_to_study_fc = tk.Button(welcome_frame, text="Study Flashcards", command=study_fc_button)
 switch_to_study_fc.grid(row=2, column=5, pady=0)
 
+# Creates a grid system for the add fc frame
+for r in range(10):
+    add_frame.grid_rowconfigure(r, weight=1)
+for c in range(10):
+    add_frame.grid_columnconfigure(c, weight=1)
 
 # Creates widget for adding flashcards
-tk.Label(add_frame, text="Enter Term:").pack()
-term_entry = tk.Entry(add_frame, width=30)
-term_entry.pack()
-tk.Label(add_frame, text="Enter Definition:").pack()
-definition_entry = tk.Entry(add_frame, width=30) 
-definition_entry.pack()
-add_button = tk.Button(add_frame, text="Add Flashcard", command=add_flashcard)
-add_button.pack(pady=10)
-result_label = tk.Label(add_frame, text="")
-result_label.pack()
+enter_term = tk.Label(add_frame, text="Enter Term:")
+enter_term.grid(row=0, column=5, pady=0)
 
+term_entry = tk.Entry(add_frame,  width=30)
+term_entry.grid(row=1, column=5, pady=0)
+
+enter_definition = tk.Label(add_frame, text="Enter Definition:")
+enter_definition.grid(row=2, column=5, pady=0)
+
+definition_entry = tk.Entry(add_frame, width=30) 
+definition_entry.grid(row=3, column=5, pady=0)
+
+add_button = tk.Button(add_frame, text="Add Flashcard", command=add_flashcard)
+add_button.grid(row=4, column=5, pady=0)
+
+result_label = tk.Label(add_frame, text="")
+result_label.grid(row=5, column=5, pady=0)
+
+# Creates buttons for switching to the welcome frame from the add fc frame
+back_to_welcome_frame = tk.Button(add_frame, text="Back to Menu", command=welcome_button)
+back_to_welcome_frame.grid(row=6, column=5, pady=0)
+
+switch_to_study_fc = tk.Button(add_frame, text="Study Flashcards", command=study_fc_button)
+switch_to_study_fc.grid(row=7, column=5, pady=0)
 
 # Creates a menu
 menu = tk.Menu(root)
