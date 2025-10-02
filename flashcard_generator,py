@@ -1,5 +1,5 @@
 '''
-    Title: flashcard_generator_v0.2.py
+    Title: flashcard_generator.py
     Author: Hudson DeVos
     Version: 0.2.5
     Purpose: To generate flashcards to help study
@@ -50,11 +50,11 @@ def show_term():
     def show_definition(): 
         tk.Label(study_frame, text=f"Definition: {definition_list[index]}", font=("Arial", 14)).pack(pady=10)
         
-        tk.Button(study_frame, text="Next Term", command=show_term).pack(pady=10)
+        tk.Button(study_frame, text="Next Term", command=show_term).pack(pady=0)
 
     tk.Button(study_frame, text="Show definition", command=show_definition).pack(pady=10)
     
-# Creates a welcome screen so the user does not open right into making a fkashcard
+# Creates a welcome screen so the user does not open right into making a flashcard
 def show_frame(frame):
     welcome_frame.pack_forget()
     add_frame.pack_forget()
@@ -65,10 +65,6 @@ def show_frame(frame):
 def add_fc_button():
     show_frame(add_frame)
 
-# Creates a button for switching to the study frame
-def study_fc_button():
-    show_frame(study_frame)
-
 # Creates a button for switching to the welcome frame 
 def welcome_button():
     show_frame(welcome_frame)
@@ -77,6 +73,8 @@ def welcome_button():
 root = tk.Tk()
 root.title("Flashcard Creator")
 root.geometry("500x500")
+
+'''Creating and working with frames and buttons:'''
 
 # Creates a grid system for the welcome frame
 welcome_frame = tk.Frame(root)
@@ -91,7 +89,7 @@ add_frame = tk.Frame(root)
 # Creates a frame for studying flashcards
 study_frame = tk.Frame(root)
 study_label = tk.Label(study_frame, text="", font=("Arial", 14))
-study_label.pack(pady=50)
+study_label.grid(pady=50)
 
 # Creates a label for the welcome frame
 welcome_label = tk.Label(welcome_frame, text="Welcome to the Flashcard Generator", font=("Arial", 16))
@@ -102,7 +100,7 @@ switch_to_add_fc = tk.Button(welcome_frame, text="Add Flashcards", command=add_f
 switch_to_add_fc.grid(row=1, column=5, pady=0)
 
 # Creates buttons for switching to the study frame
-switch_to_study_fc = tk.Button(welcome_frame, text="Study Flashcards", command=study_fc_button)
+switch_to_study_fc = tk.Button(welcome_frame, text="Study Flashcards", command=lambda: [show_frame(study_frame), show_term()])
 switch_to_study_fc.grid(row=2, column=5, pady=0)
 
 # Creates a grid system for the add fc frame
@@ -111,22 +109,27 @@ for r in range(10):
 for c in range(10):
     add_frame.grid_columnconfigure(c, weight=1)
 
-# Creates widget for adding flashcards
+# Creates label for entering a term
 enter_term = tk.Label(add_frame, text="Enter Term:")
 enter_term.grid(row=0, column=5, pady=0)
 
+# Creates a box for inputing a term
 term_entry = tk.Entry(add_frame,  width=30)
 term_entry.grid(row=1, column=5, pady=0)
 
+# Creates a label for entering a definition
 enter_definition = tk.Label(add_frame, text="Enter Definition:")
 enter_definition.grid(row=2, column=5, pady=0)
 
+# Creates a box for inputing a definition
 definition_entry = tk.Entry(add_frame, width=30) 
 definition_entry.grid(row=3, column=5, pady=0)
 
+# Creates a button for adding a flashcard
 add_button = tk.Button(add_frame, text="Add Flashcard", command=add_flashcard)
 add_button.grid(row=4, column=5, pady=0)
 
+# Creates a label for showing results
 result_label = tk.Label(add_frame, text="")
 result_label.grid(row=5, column=5, pady=0)
 
@@ -134,10 +137,13 @@ result_label.grid(row=5, column=5, pady=0)
 back_to_welcome_frame = tk.Button(add_frame, text="Back to Menu", command=welcome_button)
 back_to_welcome_frame.grid(row=6, column=5, pady=0)
 
-switch_to_study_fc = tk.Button(add_frame, text="Study Flashcards", command=study_fc_button)
+# Creates buttons for switching to the study frame
+switch_to_study_fc = tk.Button(add_frame, text="Study Flashcards", command=lambda: [show_frame(study_frame), show_term()])
 switch_to_study_fc.grid(row=7, column=5, pady=0)
 
-# Creates a menu
+'''Ends the creation and use of frames and buttons'''
+
+# Creates a drop down menu
 menu = tk.Menu(root)
 root.config(menu=menu)
 
