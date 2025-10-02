@@ -1,7 +1,7 @@
 '''
     Title: flashcard_generator_v0.2.py
     Author: Hudson DeVos
-    Version: 0.3
+    Version: 0.2.5
     Purpose: To generate flashcards to help study
 '''
 
@@ -61,20 +61,45 @@ def show_frame(frame):
     study_frame.pack_forget()
     frame.pack(fill="both", expand=True)
 
+# Creates a button for switching to the add flashcard frame
+def add_fc_button():
+    show_frame(add_frame)
+
+# Creates a button for switching to the study frame
+def study_fc_button():
+    show_frame(study_frame)
+
 # Creates the GUI window
 root = tk.Tk()
 root.title("Flashcard Creator")
 root.geometry("500x500")
 
-# Creates a welcome screen
+# Creates a grid system for the welcome frame
 welcome_frame = tk.Frame(root)
+for r in range(10):
+    welcome_frame.grid_rowconfigure(r, weight=1)
+for c in range(10):
+    welcome_frame.grid_columnconfigure(c, weight=1)
+
+# Creates a frame for adding flashcards
 add_frame = tk.Frame(root)
+
+# Creates a frame for studying flashcards
 study_frame = tk.Frame(root)
 study_label = tk.Label(study_frame, text="", font=("Arial", 14))
 study_label.pack(pady=50)
 
+# Creates a label for the welcome frame
 welcome_label = tk.Label(welcome_frame, text="Welcome to the Flashcard Generator", font=("Arial", 16))
-welcome_label.pack(pady=200)
+welcome_label.grid(row=0, column=5, pady=0)
+
+# Creates buttons for switching to the add flashcard frame
+switch_to_add_fc = tk.Button(welcome_frame, text="Add Flashcards", command=add_fc_button)
+switch_to_add_fc.grid(row=1, column=5, pady=0)
+
+# Creates buttons for switching to the study frame
+switch_to_study_fc = tk.Button(welcome_frame, text="Study Flashcards", command=study_fc_button)
+switch_to_study_fc.grid(row=2, column=5, pady=0)
 
 
 # Creates widget for adding flashcards
