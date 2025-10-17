@@ -1,22 +1,28 @@
 '''
     Title: flashcard_generator.py
     Author: Hudson DeVos
-    Version: 0.2.5
+    Version: 0.3
     Purpose: To generate flashcards to help study
 '''
 
 # Disclaimer: This code was made with the HELP of ChatGPT.
 
-# TODO: Import randint
+# Import randint
 from random import randint 
-# TODO: Import tkinter for GUI
+# Import tkinter for GUI
 import tkinter as tk
+# Import Pickle 
+import pickle
 
-# TODO: Crate a list 
+import os
+
+# Crate a list 
 term_list = [] 
 definition_list = []
 
-# TODO: Make a GUI
+FILENAME = "data.pkl"
+
+# Make a GUI
 
 def add_flashcard(): # Created the add_flashcard function 
     term = term_entry.get() # Gets the term 
@@ -49,13 +55,13 @@ def show_term():
     # This creates a reaveal desinition button as well as shows the definition when the button is pressed 
     def show_definition(): 
         tk.Label(study_frame, text=f"Definition: {definition_list[index]}", font=("Arial", 14)).pack(pady=10)
-        
         tk.Button(study_frame, text="Next Term", command=show_term).pack(pady=0)
 
     tk.Button(study_frame, text="Show definition", command=show_definition).pack(pady=10)
     
 # Creates a welcome screen so the user does not open right into making a flashcard
 def show_frame(frame):
+    # Use pack_forget instead of grid_forget since we’re using pack for top-level frames
     welcome_frame.pack_forget()
     add_frame.pack_forget()
     study_frame.pack_forget()
@@ -68,6 +74,50 @@ def add_fc_button():
 # Creates a button for switching to the welcome frame 
 def welcome_button():
     show_frame(welcome_frame)
+
+# Creates a list to save the flashcards 
+def save():
+    try:
+        with open(FILENAME, "wb") as f:
+            pickle.dump((term_list, definition_list), f)
+        try:
+           result_label.config(text=f"Saved {len(term_list)} flashcards to {FILENAME}")
+        except NameError:
+            print("Saved, but GUI is not ready yet")
+    except Exception as e:
+        try:
+            result_label.config(text=f"Save failed: {e}")
+        except NameError:
+            print("Save failed")
+
+# Creates the ability to access the saved list
+def reopen():
+    """Load the lists back into the global variables."""
+    global term_list, definition_list
+    if not os.path.exists(FILENAME):
+        try:
+            result_label.config(text="No saved file found.")
+        except NameError:
+            print("No saved file found.")
+        return
+
+    try:
+        with open(FILENAME, "rb") as f:
+            loaded = pickle.load(f)
+        # Expect the saved object to be a (term_list, definition_list) tuple
+        if isinstance(loaded, (tuple, list)) and len(loaded) == 2:
+            term_list, definition_list = loaded
+            try:
+                result_label.config(text=f"Loaded {len(term_list)} flashcards.")
+            except NameError:
+                print(f"Loaded {len(term_list)} flashcards.")
+        else:
+            raise ValueError("Saved file has unexpected format.")
+    except Exception as e:
+        try:
+            result_label.config(text=f"Load failed: {e}")
+        except NameError:
+            print("Load failed:", e)
 
 # Creates the GUI window
 root = tk.Tk()
@@ -141,23 +191,41 @@ back_to_welcome_frame.grid(row=6, column=5, pady=0)
 switch_to_study_fc = tk.Button(add_frame, text="Study Flashcards", command=lambda: [show_frame(study_frame), show_term()])
 switch_to_study_fc.grid(row=7, column=5, pady=0)
 
+
+for r in range(10):
+    study_frame.grid_rowconfigure(r, weight=1)
+for c in range(10):
+    study_frame.grid_columnconfigure(c, weight=1)
+
+# Creates buttons for switching to the add flashcard frame
+switch_to_add_fc = tk.Button(study_frame, text="Add Flashcards", command=add_fc_button)
+switch_to_add_fc.grid(row=1, column=5, pady=0)
+
 '''Ends the creation and use of frames and buttons'''
 
 # Creates a drop down menu
 menu = tk.Menu(root)
 root.config(menu=menu)
 
+# Creates a drop down menu
 flashcard_menu = tk.Menu(menu, tearoff=0)
 menu.add_cascade(label="Flashcards", menu=flashcard_menu)
 
+# Creates a exit menu
 file_menu = tk.Menu(menu, tearoff=0)
 menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Exit", command=root.quit)
 
+# Creates a save menu
+# Creates a save menu
+file_menu.add_command(label="Save", command=save)
+
+file_menu.add_command(label="Load", command=reopen)
+# Creates a add flashcard and study flashcard menu 
 flashcard_menu.add_command(label="Add New", command=lambda: show_frame(add_frame))
 flashcard_menu.add_command(label="Study", command=lambda: [show_frame(study_frame), show_term()])
 
 welcome_frame.pack(fill="both", expand=True)
 
+
 root.mainloop()
-           
