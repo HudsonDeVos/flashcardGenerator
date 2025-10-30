@@ -1,11 +1,11 @@
 '''
     Title: flashcard_generator.py
     Author: Hudson DeVos
-    Version: 0.3
+    Version: 0.35
     Purpose: To generate flashcards to help study
 '''
 
-# Disclaimer: This code was made with the HELP of ChatGPT.
+# Disclaimer: This code was made with the HELP of AI.
 
 # Import randint
 from random import randint 
@@ -217,10 +217,10 @@ menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Exit", command=root.quit)
 
 # Creates a save menu
-# Creates a save menu
 file_menu.add_command(label="Save", command=save)
 
 file_menu.add_command(label="Load", command=reopen)
+
 # Creates a add flashcard and study flashcard menu 
 flashcard_menu.add_command(label="Add New", command=lambda: show_frame(add_frame))
 flashcard_menu.add_command(label="Study", command=lambda: [show_frame(study_frame), show_term()])
