@@ -229,15 +229,15 @@ switch_to_add_fc.grid(row=1, column=5, pady=0)
 menu = tk.Menu(root)
 root.config(menu=menu)
 
-# Creates a dictionary drop down menu
-dictionary_menu = tk.Menu(menu, tearoff=0)
-menu.add_cascade(label="Dictionary", menu=dictionary_menu)
-dictionary_menu.add_command(label="Look Up Word", command=open_dictionary_window)
-
 
 # Creates a drop down menu
 flashcard_menu = tk.Menu(menu, tearoff=0)
 menu.add_cascade(label="Flashcards", menu=flashcard_menu)
+
+# Creates a dictionary drop down menu
+dictionary_menu = tk.Menu(menu, tearoff=0)
+menu.add_cascade(label="Dictionary", menu=dictionary_menu)
+dictionary_menu.add_command(label="Look Up Word", command=open_dictionary_window)
 
 # Creates a exit menu
 file_menu = tk.Menu(menu, tearoff=0)
