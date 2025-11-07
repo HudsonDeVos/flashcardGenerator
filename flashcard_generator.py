@@ -9,7 +9,7 @@ from random import randint
 import tkinter as tk
 # Import Pickle 
 import pickle
-
+import os 
 from dictionary_fc import Dictionary
 
 # Crate a list 
