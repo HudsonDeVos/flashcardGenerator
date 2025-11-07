@@ -1,9 +1,5 @@
-'''
-    Title: flashcard_generator.py
-    Author: Hudson DeVos
-    Version: 0.35
-    Purpose: To generate flashcards to help study
-'''
+# Version: 0.4
+
 
 # Disclaimer: This code was made with the HELP of AI.
 
@@ -14,7 +10,7 @@ import tkinter as tk
 # Import Pickle 
 import pickle
 
-import os
+from dictionary_fc import Dictionary
 
 # Crate a list 
 term_list = [] 
@@ -119,6 +115,32 @@ def reopen():
         except NameError:
             print("Load failed:", e)
 
+# Allows the user to use the dictionary in the code
+def open_dictionary_window():
+    dict_window = tk.Toplevel(root)
+    dict_window.title("Dictionary Lookup")
+    dict_window.geometry("400x200")
+
+    tk.Label(dict_window, text="Enter a word:").pack(pady=5)
+    word_entry = tk.Entry(dict_window, width=30)
+    word_entry.pack(pady=5)
+
+    result_label = tk.Label(dict_window, text="", wraplength=350)
+    result_label.pack(pady=10)
+
+    def lookup():
+        word = word_entry.get().strip()
+        if not word:
+            result_label.config(text="Please enter a word.")
+            return
+        definition = Dictionary.get_definition(word)
+        if definition:
+            result_label.config(text=f"Definition of {word}:\n{definition}")
+        else:
+            result_label.config(text="Word not found.")
+
+    tk.Button(dict_window, text="Search", command=lookup).pack(pady=5)
+
 # Creates the GUI window
 root = tk.Tk()
 root.title("Flashcard Creator")
@@ -206,6 +228,12 @@ switch_to_add_fc.grid(row=1, column=5, pady=0)
 # Creates a drop down menu
 menu = tk.Menu(root)
 root.config(menu=menu)
+
+# Creates a dictionary drop down menu
+dictionary_menu = tk.Menu(menu, tearoff=0)
+menu.add_cascade(label="Dictionary", menu=dictionary_menu)
+dictionary_menu.add_command(label="Look Up Word", command=open_dictionary_window)
+
 
 # Creates a drop down menu
 flashcard_menu = tk.Menu(menu, tearoff=0)
