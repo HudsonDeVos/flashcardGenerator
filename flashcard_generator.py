@@ -1,4 +1,4 @@
-# Version: 0.4
+# Version: 0.5
 
 
 # Disclaimer: This code was made with the HELP of AI.
@@ -7,6 +7,7 @@
 from random import randint 
 # Import tkinter for GUI
 import tkinter as tk
+from tkinter import ttk
 # Import Pickle 
 import pickle
 import os 
@@ -145,6 +146,18 @@ def open_dictionary_window():
 root = tk.Tk()
 root.title("Flashcard Creator")
 root.geometry("500x500")
+
+style = ttk.Style()
+
+style.theme_use("clam")
+
+style.configure(
+    "MyButton.TButton",
+    forground="white",
+    background="#3b82f6",
+    padding=6,
+    font=("Arial", 12)
+)
 
 '''Creating and working with frames and buttons:'''
 
