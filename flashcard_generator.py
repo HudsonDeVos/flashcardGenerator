@@ -8,6 +8,7 @@ from random import randint
 # Import tkinter for GUI
 import tkinter as tk
 from tkinter import ttk
+import customtkinter 
 # Import Pickle 
 import pickle
 import os 
@@ -47,14 +48,14 @@ def show_term():
 
     # Allows the user to study their flaschards 
     index = randint(0, len(term_list) - 1) # Gets a term from the flashcard list
-    tk.Label(study_frame, text=f"Term: {term_list[index]}", font=("Arial")).pack(pady=50) # Prints the chosen term to the screen
+    customtkinter.CTkLabel(study_frame, text=f"Term: {term_list[index]}", font=("Arial")).pack(pady=50) # Prints the chosen term to the screen
     
     # This creates a reaveal desinition button as well as shows the definition when the button is pressed 
     def show_definition(): 
-        tk.Label(study_frame, text=f"Definition: {definition_list[index]}", font=("Arial", 14)).pack(pady=10)
-        tk.Button(study_frame, text="Next Term", command=show_term).pack(pady=0)
+        customtkinter.CTkLabel(study_frame, text=f"Definition: {definition_list[index]}", font=("Arial", 14)).pack(pady=10)
+        customtkinter.Button(study_frame, text="Next Term", command=show_term).pack(pady=0)
 
-    tk.Button(study_frame, text="Show definition", command=show_definition).pack(pady=10)
+    customtkinter.Button(study_frame, text="Show definition", command=show_definition).pack(pady=10)
     
 # Creates a welcome screen so the user does not open right into making a flashcard
 def show_frame(frame):
@@ -122,11 +123,11 @@ def open_dictionary_window():
     dict_window.title("Dictionary Lookup")
     dict_window.geometry("400x200")
 
-    tk.Label(dict_window, text="Enter a word:").pack(pady=5)
+    customtkinter.CTkLabel(dict_window, text="Enter a word:").pack(pady=5)
     word_entry = tk.Entry(dict_window, width=30)
     word_entry.pack(pady=5)
 
-    result_label = tk.Label(dict_window, text="", wraplength=350)
+    result_label = customtkinter.CTkLabel(dict_window, text="", wraplength=350)
     result_label.pack(pady=10)
 
     def lookup():
@@ -140,24 +141,16 @@ def open_dictionary_window():
         else:
             result_label.config(text="Word not found.")
 
-    tk.Button(dict_window, text="Search", command=lookup).pack(pady=5)
+    customtkinter.Button(dict_window, text="Search", command=lookup).pack(pady=5)
 
 # Creates the GUI window
+app = customtkinter.CTk()
 root = tk.Tk()
 root.title("Flashcard Creator")
 root.geometry("500x500")
 
-style = ttk.Style()
-
-style.theme_use("clam")
-
-style.configure(
-    "MyButton.TButton",
-    forground="white",
-    background="#3b82f6",
-    padding=6,
-    font=("Arial", 12)
-)
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
 '''Creating and working with frames and buttons:'''
 
@@ -173,15 +166,15 @@ add_frame = tk.Frame(root)
 
 # Creates a frame for studying flashcards
 study_frame = tk.Frame(root)
-study_label = tk.Label(study_frame, text="", font=("Arial", 14))
+study_label = customtkinter.CTkLabel(study_frame, text="", font=("Arial", 14))
 study_label.grid(pady=50)
 
 # Creates a label for the welcome frame
-welcome_label = tk.Label(welcome_frame, text="Welcome to the Flashcard Generator", font=("Arial", 16))
+welcome_label = customtkinter.CTkLabel(welcome_frame, text="Welcome to the Flashcard Generator", font=("Arial", 16))
 welcome_label.grid(row=0, column=5, pady=0)
 
 # Creates buttons for switching to the add flashcard frame
-switch_to_add_fc = tk.Button(welcome_frame, text="Add Flashcards", command=add_fc_button)
+switch_to_add_fc = customtkinter.Button(welcome_frame, text="Add Flashcards", command=add_fc_button)
 switch_to_add_fc.grid(row=1, column=5, pady=0)
 
 # Creates buttons for switching to the study frame
@@ -195,7 +188,7 @@ for c in range(10):
     add_frame.grid_columnconfigure(c, weight=1)
 
 # Creates label for entering a term
-enter_term = tk.Label(add_frame, text="Enter Term:")
+enter_term = customtkinter.CTkLabel(add_frame, text="Enter Term:")
 enter_term.grid(row=0, column=5, pady=0)
 
 # Creates a box for inputing a term
@@ -203,7 +196,7 @@ term_entry = tk.Entry(add_frame,  width=30)
 term_entry.grid(row=1, column=5, pady=0)
 
 # Creates a label for entering a definition
-enter_definition = tk.Label(add_frame, text="Enter Definition:")
+enter_definition = customtkinter.CTkLabel(add_frame, text="Enter Definition:")
 enter_definition.grid(row=2, column=5, pady=0)
 
 # Creates a box for inputing a definition
@@ -211,19 +204,19 @@ definition_entry = tk.Entry(add_frame, width=30)
 definition_entry.grid(row=3, column=5, pady=0)
 
 # Creates a button for adding a flashcard
-add_button = tk.Button(add_frame, text="Add Flashcard", command=add_flashcard)
+add_button = customtkinter.Button(add_frame, text="Add Flashcard", command=add_flashcard)
 add_button.grid(row=4, column=5, pady=0)
 
 # Creates a label for showing results
-result_label = tk.Label(add_frame, text="")
+result_label = customtkinter.CTkLabel(add_frame, text="")
 result_label.grid(row=5, column=5, pady=0)
 
 # Creates buttons for switching to the welcome frame from the add fc frame
-back_to_welcome_frame = tk.Button(add_frame, text="Back to Menu", command=welcome_button)
+back_to_welcome_frame = customtkinter.Button(add_frame, text="Back to Menu", command=welcome_button)
 back_to_welcome_frame.grid(row=6, column=5, pady=0)
 
 # Creates buttons for switching to the study frame
-switch_to_study_fc = tk.Button(add_frame, text="Study Flashcards", command=lambda: [show_frame(study_frame), show_term()])
+switch_to_study_fc = customtkinter.Button(add_frame, text="Study Flashcards", command=lambda: [show_frame(study_frame), show_term()])
 switch_to_study_fc.grid(row=7, column=5, pady=0)
 
 
@@ -233,7 +226,7 @@ for c in range(10):
     study_frame.grid_columnconfigure(c, weight=1)
 
 # Creates buttons for switching to the add flashcard frame
-switch_to_add_fc = tk.Button(study_frame, text="Add Flashcards", command=add_fc_button)
+switch_to_add_fc = customtkinter.Button(study_frame, text="Add Flashcards", command=add_fc_button)
 switch_to_add_fc.grid(row=1, column=5, pady=0)
 
 '''Ends the creation and use of frames and buttons'''
