@@ -36,26 +36,54 @@ def add_flashcard(): # Created the add_flashcard function
 
 
 def show_term():
-
-    # Clear previous buttons to prevent stacking
+    # Wipe the study frame
     for widget in study_frame.winfo_children():
         widget.destroy()
 
-    # Tells if you have created flashcards to study
+    # Stop if no flashcards
     if not term_list:
-        result_label.configure(text="No flashcards are created.")
+        customtkinter.CTkLabel(
+            study_frame,
+            text="No flashcards created yet.",
+            font=("Arial", 16)
+        ).pack(pady=20)
         return
 
-    # Allows the user to study their flaschards 
-    index = randint(0, len(term_list) - 1) # Gets a term from the flashcard list
-    customtkinter.CTkLabel(study_frame, text=f"Term: {term_list[index]}", font=("Arial")).pack(pady=50) # Prints the chosen term to the screen
-    
-    # This creates a reaveal desinition button as well as shows the definition when the button is pressed 
-    def show_definition(): 
-        customtkinter.CTkLabel(study_frame, text=f"Definition: {definition_list[index]}", font=("Arial", 14)).pack(pady=10)
-        customtkinter.CTkButton(study_frame, text="Next Term", command=show_term).pack(pady=0)
+    # Pick a random flashcard
+    index = randint(0, len(term_list) - 1)
 
-    customtkinter.CTkButton(study_frame, text="Show definition", command=show_definition).pack(pady=10)
+    # Term label (centered)
+    term_label = customtkinter.CTkLabel(
+        study_frame,
+        text=f"Term:\n{term_list[index]}",
+        font=("Arial", 22)
+    )
+    term_label.pack(pady=20)
+
+    # Function to reveal definition
+    def show_definition():
+        definition_label = customtkinter.CTkLabel(
+            study_frame,
+            text=f"Definition:\n{definition_list[index]}",
+            font=("Arial", 18)
+        )
+        definition_label.pack(pady=10)
+
+        next_btn = customtkinter.CTkButton(
+            study_frame,
+            text="Next Term",
+            command=show_term
+        )
+        next_btn.pack(pady=10)
+
+    # Reveal definition button (centered)
+    reveal_btn = customtkinter.CTkButton(
+        study_frame,
+        text="Show Definition",
+        command=show_definition
+    )
+    reveal_btn.pack(pady=10)
+
     
 # Creates a welcome screen so the user does not open right into making a flashcard
 def show_frame(frame):
@@ -124,7 +152,7 @@ def open_dictionary_window():
     dict_window.geometry("400x200")
 
     customtkinter.CTkLabel(dict_window, text="Enter a word:").pack(pady=5)
-    word_entry = customtkinter.CTkEntry(dict_window, width=30)
+    word_entry = customtkinter.CTkEntry(dict_window, width=300)
     word_entry.pack(pady=5)
 
     result_label = customtkinter.CTkLabel(dict_window, text="", wraplength=350)
@@ -143,12 +171,18 @@ def open_dictionary_window():
 
     customtkinter.CTkButton(dict_window, text="Search", command=lookup).pack(pady=5)
 
+def toggle_theme():
+    # read directly from the switch’s get() method, which returns True/False
+    mode = theme_switch.get()  # True if on, False if off
+    customtkinter.set_appearance_mode("dark" if mode else "light")
+
+
 # Creates the GUI window
 root = customtkinter.CTk()
 root.title("Flashcard Creator")
 root.geometry("500x500")
 
-customtkinter.set_appearance_mode("Dark")
+menu_frame = customtkinter.CTkFrame(root, height=40)
 
 customtkinter.set_default_color_theme("blue")
 
@@ -196,7 +230,7 @@ enter_term = customtkinter.CTkLabel(add_frame, text="Enter Term:")
 enter_term.grid(row=0, column=5, pady=0)
 
 # Creates a box for inputing a term
-term_entry = customtkinter.CTkEntry(add_frame,  width=30)
+term_entry = customtkinter.CTkEntry(add_frame,  width=300)
 term_entry.grid(row=1, column=5, pady=0)
 
 # Creates a label for entering a definition
@@ -204,7 +238,7 @@ enter_definition = customtkinter.CTkLabel(add_frame, text="Enter Definition:")
 enter_definition.grid(row=2, column=5, pady=0)
 
 # Creates a box for inputing a definition
-definition_entry = customtkinter.CTkEntry(add_frame, width=30) 
+definition_entry = customtkinter.CTkEntry(add_frame, width=300) 
 definition_entry.grid(row=3, column=5, pady=0)
 
 # Creates a button for adding a flashcard
@@ -229,9 +263,22 @@ for r in range(10):
 for c in range(10):
     study_frame.grid_columnconfigure(c, weight=1)
 
-# Creates buttons for switching to the add flashcard frame
-switch_to_add_fc = customtkinter.CTkButton(study_frame, text="Add Flashcards", command=add_fc_button)
-switch_to_add_fc.grid(row=1, column=5, pady=0)
+
+
+study_content = customtkinter.CTkFrame(study_frame)
+study_content.grid(row=0, column=0, pady=0)
+
+
+theme_var = tk.StringVar(value="Dark")  # starts in Dark mode
+
+theme_switch = customtkinter.CTkSwitch(
+    welcome_frame,
+    text="Dark Mode",
+    command=toggle_theme,
+)
+
+# Place the switch using the same layout manager as the other widgets in welcome_frame
+theme_switch.grid(row=3, column=5, pady=10)
 
 '''Ends the creation and use of frames and buttons'''
 
@@ -248,22 +295,18 @@ menu_frame.pack(side="top", fill="x", padx=5, pady=5)
 # Create a segmented button for menu options
 seg_btn = customtkinter.CTkSegmentedButton(
     menu_frame,
-    values=["Add Flashcards", "Study Flashcards", "Dictionary"],
+    values=["Menu", "Add Flashcards", "Study Flashcards", "Dictionary", "Save", "Load"],
     command=lambda choice: {
+        "Menu": welcome_button,
         "Add Flashcards": lambda: show_frame(add_frame),
         "Study Flashcards": lambda: [show_frame(study_frame), show_term()],
         "Dictionary": open_dictionary_window,
-        "Save": save
+        "Save": save,
+        "Load": reopen
     }[choice]()
 )
 seg_btn.pack(padx=5, pady=5)
 
-
-save_button = customtkinter.CTkButton(menu_frame, text="Save", command=save)
-save_button.pack(side="left", padx=5, pady=5)
-
-load_button = customtkinter.CTkButton(menu_frame, text="Load", command=reopen)
-load_button.pack(side="left", padx=5, pady=5)
 
 welcome_frame.pack(fill="both", expand=True)
 
