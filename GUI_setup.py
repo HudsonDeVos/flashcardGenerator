@@ -1,5 +1,5 @@
 import tkinter as tk
-import flashcard_generator
+import flashcard_generator as fcg
 import customtkinter
 import os
 from dictionary_fc import Dictionary
@@ -8,11 +8,11 @@ import pickle
 term_list = [] 
 definition_list = []
 
-fcg = flashcard_generator()
+
 
 class Setup:
     def add_flashcard(): # Created the add_flashcard function 
-        term = fcg.term_entry.get() # Gets the term 
+        fcg.term = fcg.term_entry.get() # Gets the term 
     definition = fcg.definition_entry.get() # Gets the definition 
     if fcg.term and definition: # Asks if both the term and definition are present 
         term_list.append(fcg.term) # Stores the term in a list

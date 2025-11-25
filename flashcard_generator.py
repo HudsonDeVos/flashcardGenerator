@@ -13,7 +13,7 @@ import customtkinter
 import pickle
 import os 
 from dictionary_fc import Dictionary
-from GUI_setup import Setup
+from GUI_setup import Setup as setup
 
 # Crate a list 
 term_list = [] 
@@ -213,11 +213,11 @@ welcome_label = customtkinter.CTkLabel(welcome_frame, text="Welcome to the Flash
 welcome_label.grid(row=0, column=5, pady=0)
 
 # Creates buttons for switching to the add flashcard frame
-switch_to_add_fc = customtkinter.CTkButton(welcome_frame, text="Add Flashcards", command=Setup.add_fc_button)
+switch_to_add_fc = customtkinter.CTkButton(welcome_frame, text="Add Flashcards", command=setup.add_fc_button)
 switch_to_add_fc.grid(row=1, column=5, pady=0)
 
 # Creates buttons for switching to the study frame
-switch_to_study_fc = customtkinter.CTkButton(welcome_frame, text="Study Flashcards", command=lambda: [Setup.show_frame(study_frame), Setup.show_term()])
+switch_to_study_fc = customtkinter.CTkButton(welcome_frame, text="Study Flashcards", command=lambda: [setup.show_frame(study_frame), setup.show_term()])
 switch_to_study_fc.grid(row=2, column=5, pady=0)
 
 # Creates a grid system for the add fc frame
@@ -243,7 +243,7 @@ definition_entry = customtkinter.CTkEntry(add_frame, width=300)
 definition_entry.grid(row=3, column=5, pady=0)
 
 # Creates a button for adding a flashcard
-add_button = customtkinter.CTkButton(add_frame, text="Add Flashcard", command=Setup.add_flashcard)
+add_button = customtkinter.CTkButton(add_frame, text="Add Flashcard", command=setup.add_flashcard)
 add_button.grid(row=4, column=5, pady=0)
 
 # Creates a label for showing results
@@ -251,11 +251,11 @@ result_label = customtkinter.CTkLabel(add_frame, text="")
 result_label.grid(row=5, column=5, pady=0)
 
 # Creates buttons for switching to the welcome frame from the add fc frame
-back_to_welcome_frame = customtkinter.CTkButton(add_frame, text="Back to Menu", command=Setup.welcome_button)
+back_to_welcome_frame = customtkinter.CTkButton(add_frame, text="Back to Menu", command=setup.welcome_button)
 back_to_welcome_frame.grid(row=6, column=5, pady=0)
 
 # Creates buttons for switching to the study frame
-switch_to_study_fc = customtkinter.CTkButton(add_frame, text="Study Flashcards", command=lambda: [Setup.show_frame(study_frame), Setup.show_term()])
+switch_to_study_fc = customtkinter.CTkButton(add_frame, text="Study Flashcards", command=lambda: [setup.show_frame(study_frame), setup.show_term()])
 switch_to_study_fc.grid(row=7, column=5, pady=0)
 
 
@@ -275,7 +275,7 @@ theme_var = tk.StringVar(value="Dark")  # starts in Dark mode
 theme_switch = customtkinter.CTkSwitch(
     welcome_frame,
     text="Dark Mode",
-    command=Setup.toggle_theme,
+    command=setup.toggle_theme,
 )
 
 # Place the switch using the same layout manager as the other widgets in welcome_frame
@@ -298,12 +298,12 @@ seg_btn = customtkinter.CTkSegmentedButton(
     menu_frame,
     values=["Menu", "Add Flashcards", "Study Flashcards", "Dictionary", "Save", "Load"],
     command=lambda choice: {
-        "Menu": Setup.welcome_button,
-        "Add Flashcards": lambda: Setup.show_frame(add_frame),
-        "Study Flashcards": lambda: [Setup.show_frame(study_frame), Setup.show_term()],
-        "Dictionary": Setup.open_dictionary_window,
-        "Save": Setup.save,
-        "Load": Setup.reopen
+        "Menu": setup.welcome_button,
+        "Add Flashcards": lambda: setup.show_frame(add_frame),
+        "Study Flashcards": lambda: [setup.show_frame(study_frame), setup.show_term()],
+        "Dictionary": setup.open_dictionary_window,
+        "Save": setup.save,
+        "Load": setup.reopen
     }[choice]()
 )
 seg_btn.pack(padx=5, pady=5)
