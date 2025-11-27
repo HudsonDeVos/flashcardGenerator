@@ -124,7 +124,7 @@ class Setup:
         if definition:
             self.dict_result_label.configure(text=f"Definition of {word}:\n{definition}")
         else:
-            self.dict_result_label.configure(text="Word not found.")
+            self.dict_result_label.configure(text="Word not found.\nPlease try again")
 
     def toggle_theme(self):
         self.mode = self.theme_switch.get()

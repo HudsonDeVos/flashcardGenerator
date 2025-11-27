@@ -41,51 +41,58 @@ app = Setup(
 )
 
 # --- Layout for welcome_frame ---
+welcome_frame.grid_columnconfigure(0, weight=1)   # make column 0 expand
+welcome_frame.grid_rowconfigure((0,1,2,3), weight=1)  # optional: center vertically too
+
 welcome_label = customtkinter.CTkLabel(
     welcome_frame,
     text="Welcome to the Flashcard Generator",
     font=("Arial", 16)
 )
-welcome_label.grid(row=0, column=5, pady=10)
+welcome_label.grid(row=0, column=0, pady=10, sticky="n")
 
 switch_to_add_fc = customtkinter.CTkButton(
     welcome_frame,
     text="Add Flashcards",
     command=app.add_fc_button
 )
-switch_to_add_fc.grid(row=1, column=5, pady=10)
+switch_to_add_fc.grid(row=1, column=0, pady=10)
 
 switch_to_study_fc = customtkinter.CTkButton(
     welcome_frame,
     text="Study Flashcards",
     command=lambda: [app.show_frame(study_frame), app.show_term()]
 )
-switch_to_study_fc.grid(row=2, column=5, pady=10)
+switch_to_study_fc.grid(row=2, column=0, pady=10)
 
 theme_switch.configure(command=app.toggle_theme)
-theme_switch.grid(row=3, column=5, pady=10)
+theme_switch.grid(row=3, column=0, pady=10)
+
 
 # --- Layout for add_frame ---
-customtkinter.CTkLabel(add_frame, text="Enter Term:").grid(row=0, column=5, pady=5)
-term_entry.grid(row=1, column=5, pady=5)
+add_frame.grid_columnconfigure(0, weight=1)   # make column 0 expand
+add_frame.grid_rowconfigure((0,1,2,3), weight=1)  # optional: center vertically too
 
-customtkinter.CTkLabel(add_frame, text="Enter Definition:").grid(row=2, column=5, pady=5)
-definition_entry.grid(row=3, column=5, pady=5)
+customtkinter.CTkLabel(add_frame, text="Enter Term:").grid(row=0, column=0, pady=5)
+term_entry.grid(row=1, column=0, pady=5)
+
+customtkinter.CTkLabel(add_frame, text="Enter Definition:").grid(row=2, column=0, pady=5)
+definition_entry.grid(row=3, column=0, pady=5)
 
 add_button = customtkinter.CTkButton(add_frame, text="Add Flashcard", command=app.add_flashcard)
-add_button.grid(row=4, column=5, pady=5)
+add_button.grid(row=4, column=0, pady=5)
 
-result_label.grid(row=5, column=5, pady=5)
+result_label.grid(row=5, column=0, pady=5)
 
 back_to_welcome = customtkinter.CTkButton(add_frame, text="Back to Menu", command=app.welcome_button)
-back_to_welcome.grid(row=6, column=5, pady=5)
+back_to_welcome.grid(row=6, column=0, pady=5)
 
 switch_to_study_fc2 = customtkinter.CTkButton(
     add_frame,
     text="Study Flashcards",
     command=lambda: [app.show_frame(study_frame), app.show_term()]
 )
-switch_to_study_fc2.grid(row=7, column=5, pady=5)
+switch_to_study_fc2.grid(row=7, column=0, pady=5)
 
 # --- Menu bar (segmented button) ---
 menu_frame = customtkinter.CTkFrame(root, height=40)
