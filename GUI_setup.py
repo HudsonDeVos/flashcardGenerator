@@ -20,7 +20,7 @@ class Setup:
         self.FILENAME = FILENAME
         self.theme_switch = theme_switch
 
-        # initialize internal variables (no need to pass them in)
+        # initialize internal variables
         self.term_list = []
         self.definition_list = []
         self.index = None
@@ -129,21 +129,3 @@ class Setup:
     def toggle_theme(self):
         self.mode = self.theme_switch.get()
         customtkinter.set_appearance_mode("dark" if self.mode else "light")
-
-
-
-    
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
