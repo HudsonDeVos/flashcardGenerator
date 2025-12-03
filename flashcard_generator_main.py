@@ -2,6 +2,7 @@ import tkinter as tk
 import customtkinter
 from GUI_setup import Setup   # your class file
 import os
+from quiz_setup import Quiz
 
 FILENAME = "data.pkl"
 
@@ -15,6 +16,8 @@ customtkinter.set_default_color_theme("blue")
 welcome_frame = customtkinter.CTkFrame(root)
 add_frame = customtkinter.CTkFrame(root)
 study_frame = customtkinter.CTkFrame(root)
+quiz_frame = customtkinter.CTkFrame(root)
+
 
 # --- Widgets for add_frame ---
 term_entry = customtkinter.CTkEntry(add_frame, width=300)
@@ -37,7 +40,8 @@ app = Setup(
     add_frame,
     root,
     FILENAME,
-    theme_switch
+    theme_switch,
+    quiz_frame,
 )
 
 # --- Layout for welcome_frame ---
@@ -100,12 +104,13 @@ menu_frame.pack(side="top", fill="x", padx=5, pady=5)
 
 seg_btn = customtkinter.CTkSegmentedButton(
     menu_frame,
-    values=["Menu", "Add Flashcards", "Study Flashcards", "Dictionary", "Save", "Load"],
+    values=["Menu", "Add Flashcards", "Study Flashcards", "Dictionary", "Quiz", "Save", "Load"],
     command=lambda choice: {
         "Menu": app.welcome_button,
         "Add Flashcards": app.add_fc_button,
         "Study Flashcards": lambda: [app.show_frame(study_frame), app.show_term()],
         "Dictionary": app.open_dictionary_window,
+        "Quiz": app.open_quiz,
         "Save": app.save,
         "Load": app.reopen
     }[choice]()

@@ -4,12 +4,13 @@ import os
 from dictionary_fc import Dictionary
 import pickle
 from random import randint
+from quiz_setup import Quiz
 
 
 class Setup:
     def __init__(self, term_entry, definition_entry, result_label,
                  study_frame, welcome_frame, add_frame,
-                 root, FILENAME, theme_switch):
+                 root, FILENAME, theme_switch, quiz_frame):
         self.term_entry = term_entry
         self.definition_entry = definition_entry
         self.result_label = result_label
@@ -19,6 +20,7 @@ class Setup:
         self.root = root
         self.FILENAME = FILENAME
         self.theme_switch = theme_switch
+        self.quiz_frame = quiz_frame
 
         # initialize internal variables
         self.term_list = []
@@ -129,3 +131,6 @@ class Setup:
     def toggle_theme(self):
         self.mode = self.theme_switch.get()
         customtkinter.set_appearance_mode("dark" if self.mode else "light")
+
+    def open_quiz(self):
+        self.show_frame(self.quiz_frame)
